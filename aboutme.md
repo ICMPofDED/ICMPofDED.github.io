@@ -1,16 +1,12 @@
 ---
 layout: page
 title: About me
-subtitle: Why you'd want to go on a date with me
 ---
 
-My name is Inigo Montoya. I have the following qualities:
+Hello, 
+I'm Brian. I'm an aspiring Penetration Tester with a strong desire to learn as much as I can. I started this blog mainly for write-ups on CTF's, and also to document my journey into Infosec. I'm currently focusing on [Hackthebox](http://hackthebox.eu/) as a means of preparing myself for the OSCP. 
+Feel free to follow me on [LinkedIn](https://linkedin.com/in/brian-manuel-b58987138) or [Twitter](https://twitter.com/ping_of_death_).
 
-- I rock a great mustache
-- I'm extremely loyal to my family
-
-What else do you need?
-
-### my history
-
-To be honest, I'm having some trouble remembering right now, so why don't you just watch [my movie](http://en.wikipedia.org/wiki/The_Princess_Bride_%28film%29) and it will answer **all** your questions.
+Thanks for reading!
+<br>
+-B
