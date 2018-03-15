@@ -16,4 +16,6 @@ Thanks for reading!
 
 <br>
 <br>
-<img src="https://www.hackthebox.eu/badge/image/14749" alt="Hack The Box">
+<center>
+  <img src="https://www.hackthebox.eu/badge/image/14749" alt="Hack The Box">
+</center>
