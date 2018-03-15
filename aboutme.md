@@ -10,3 +10,10 @@ Feel free to follow me on [LinkedIn](https://linkedin.com/in/brian-manuel-b58987
 Thanks for reading!
 <br>
 -B
+
+
+
+
+<br>
+<br>
+<script src="https://www.hackthebox.eu/badge/14749"></script>
