@@ -1,4 +1,11 @@
-# [](#HTB Mirai)HTB Mirai
+---
+layout: post
+title: HTB Mirai
+subtitle: Mirai CTF from Hackthebox.eu
+tags: [HTB, Hackthebox, Mirai]
+---
+
+HTB Mirai
 
 Hey, this is my write-up of **Mirai**. 
 I'm fairly new to hacking, but I'm writing this blog mainly to get better and to more effectivly internalize the lessons I learn along the way. 
@@ -11,24 +18,25 @@ I started out by using nmap on the IP (which was `10.10.10.48` at the time). How
 Here's the result of the NMAP Default script: 
 >└──╼ $nmap --script=default 10.10.10.48
 
-> Starting Nmap 7.60 ( https://nmap.org ) at 2018-01-16 13:50 MST
-> Nmap scan report for 10.10.10.48
-> Host is up (0.47s latency).
-> Not shown: 997 closed ports
-> PORT   STATE SERVICE
-> 22/tcp open  ssh
-> | ssh-hostkey: 
-> |   1024 aa:ef:5c:e0:8e:86:97:82:47:ff:4a:e5:40:18:90:c5 (DSA)
-> |   2048 e8:c1:9d:c5:43:ab:fe:61:23:3b:d7:e4:af:9b:74:18 (RSA)
-> |   256 b6:a0:78:38:d0:c8:10:94:8b:44:b2:ea:a0:17:42:2b (ECDSA)
-> |_  256 4d:68:40:f7:20:c4:e5:52:80:7a:44:38:b8:a2:a7:52 (EdDSA)
-> 53/tcp open  domain
-> | dns-nsid: 
-> |_  bind.version: dnsmasq-2.76
-> 80/tcp open  http
-> |_http-title: Site doesn't have a title (text/html; charset=UTF-8).
+``` Starting Nmap 7.60 ( https://nmap.org ) at 2018-01-16 13:50 MST
+ Nmap scan report for 10.10.10.48
+ Host is up (0.47s latency).
+ Not shown: 997 closed ports
+ PORT   STATE SERVICE
+ 22/tcp open  ssh
+ | ssh-hostkey: 
+ |   1024 aa:ef:5c:e0:8e:86:97:82:47:ff:4a:e5:40:18:90:c5 (DSA)
+ |   2048 e8:c1:9d:c5:43:ab:fe:61:23:3b:d7:e4:af:9b:74:18 (RSA)
+ |   256 b6:a0:78:38:d0:c8:10:94:8b:44:b2:ea:a0:17:42:2b (ECDSA)
+ |_  256 4d:68:40:f7:20:c4:e5:52:80:7a:44:38:b8:a2:a7:52 (EdDSA)
+ 53/tcp open  domain
+ | dns-nsid: 
+ |_  bind.version: dnsmasq-2.76
+ 80/tcp open  http
+ |_http-title: Site doesn't have a title (text/html; charset=UTF-8).
 
-> Nmap done: 1 IP address (1 host up) scanned in 46.55 seconds
+ Nmap done: 1 IP address (1 host up) scanned in 46.55 seconds
+```
 
 Ok, so quite a bit less information than normal, but we have a few things to check out right off the bat. Says there is a website with no title. DNS server and SSH. 
 Well, I learned about another script I want to try as well before we continue. The Nmap Vulners script. However, looks like the host is down now. Perhaps someone is issuing a reset.
@@ -42,30 +50,30 @@ Anyway...back to business.
 
 
 > └──╼ $nmap -sV --script vulners 10.10.10.48
+```
+ Starting Nmap 7.60 ( https://nmap.org ) at 2018-01-16 14:05 MST
+ Nmap scan report for 10.10.10.48
+ Host is up (0.47s latency).
+ Not shown: 997 closed ports
+ PORT   STATE SERVICE VERSION
+ 22/tcp open  ssh     OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)
+ | vulners: 
+ |   cpe:/a:openbsd:openssh:6.7p1: 
+ | 	CVE-2016-8858		7.8		[https://vulners.com/cve/CVE-2016-8858](https://vulners.com/cve/CVE-2016-8858).
+ | 	CVE-2017-15906		5.0		[https://vulners.com/cve/CVE-2017-15906](https://vulners.com/cve/CVE-2017-15906).
+ | 	CVE-2016-0778		4.6		[https://vulners.com/cve/CVE-2016-0778](https://vulners.com/cve/CVE-2016-0778).
+ |_	CVE-2016-0777		4.0		[https://vulners.com/cve/CVE-2016-0777](https://vulners.com/cve/CVE-2016-0777).
+ 53/tcp open  domain  dnsmasq 2.76
+ 80/tcp open  http    lighttpd 1.4.35
+ |_http-server-header: lighttpd/1.4.35
+ | vulners: 
+ |   cpe:/a:lighttpd:lighttpd:1.4.35: 
+ |_	CVE-2015-3200		5.0		[https://vulners.com/cve/CVE-2015-3200](https://vulners.com/cve/CVE-2015-3200).
+ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
-> Starting Nmap 7.60 ( https://nmap.org ) at 2018-01-16 14:05 MST
-> Nmap scan report for 10.10.10.48
-> Host is up (0.47s latency).
-> Not shown: 997 closed ports
-> PORT   STATE SERVICE VERSION
-> 22/tcp open  ssh     OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)
-> | vulners: 
-> |   cpe:/a:openbsd:openssh:6.7p1: 
-> | 	CVE-2016-8858		7.8		[https://vulners.com/cve/CVE-2016-8858](https://vulners.com/cve/CVE-2016-8858).
-> | 	CVE-2017-15906		5.0		[https://vulners.com/cve/CVE-2017-15906](https://vulners.com/cve/CVE-2017-15906).
-> | 	CVE-2016-0778		4.6		[https://vulners.com/cve/CVE-2016-0778](https://vulners.com/cve/CVE-2016-0778).
-> |_	CVE-2016-0777		4.0		[https://vulners.com/cve/CVE-2016-0777](https://vulners.com/cve/CVE-2016-0777).
-> 53/tcp open  domain  dnsmasq 2.76
-> 80/tcp open  http    lighttpd 1.4.35
-> |_http-server-header: lighttpd/1.4.35
-> | vulners: 
-> |   cpe:/a:lighttpd:lighttpd:1.4.35: 
-> |_	CVE-2015-3200		5.0		[https://vulners.com/cve/CVE-2015-3200](https://vulners.com/cve/CVE-2015-3200).
-> Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
-
-> Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-> Nmap done: 1 IP address (1 host up) scanned in 43.83 seconds
-
+ Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+ Nmap done: 1 IP address (1 host up) scanned in 43.83 seconds
+```
 Ok, didn't see anything of note in the CVEs, the one for lighttpd just allows you to write to the log file, but no RCE as far as I can tell. 
 
 So I tried going to the IP in the browser, and it gave me page could not be displayed. So maybe it's in another directory? I added /admin and voila! I've got an admin portal for "pi-hole". 
@@ -118,20 +126,19 @@ I don't know a string from the file, because that's what I'm trying to find. So 
 
 This was just a snippet of the END of the result: 
 
->�
->   o��!:2�Y:2�Y:2�Y
->�* �!9�����2�Y�2�Y�2�Y
->�+ �!9��;9�Y�3
->                   8PP
->(["�	  �1�Y��S��1�Y
->                         �<Byc[��B)�>r &�<�yZ�.Gu���m^��>
->                                                               �1�Y
->�|}*,.�����+-���3d3e483143ff12ec505d026fa13e020b
->Damnit! Sorry man I accidentally deleted your files off the USB stick.
->Do you know if there is any way to get them back?
->
->-James
-
+```�
+   o��!:2�Y:2�Y:2�Y
+�* �!9�����2�Y�2�Y�2�Y
+�+ �!9��;9�Y�3
+                   8PP
+(["�	  �1�Y��S��1�Y
+                         �<Byc[��B)�>r &�<�yZ�.Gu���m^��>
+                                                               �1�Y
+�|}*,.�����+-���3d3e483143ff12ec505d026fa13e020b
+Damnit! Sorry man I accidentally deleted your files off the USB stick.
+Do you know if there is any way to get them back?
+-James
+```
 So you can see, the file that was saved to the flash drive, and just before that in memory, you can see a key. I wasn't sure if that was the key we were looking for, but I tried it and it was!
 It felt great to root this box, and to find this file. It always feels great to learn something new.
 
@@ -144,7 +151,7 @@ Hey, thanks for reading my write-up. It really means a lot. I'm really passionat
 
 Next day Edit. After all is said and done, a friend informed me that you can extract strings on the drive using the dd command. Specifically:
 
-`dd if=/dev/sdb | strings`
+```dd if=/dev/sdb | strings```
 
 Wow, certainly a much better result than my previous command. 
 Here was a snippet of the result:
